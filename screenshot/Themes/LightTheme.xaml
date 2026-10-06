@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Light, high-end minimalist theme.
+  Warm neutral whites + one tangerine accent (the app's namesake); semantic
+  green (save) / red (close).
+  Key set must stay in sync with DarkTheme.xaml.
+-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:screenshot">
+
+    <!-- ═══ Colors ═══ -->
+    <Color x:Key="WindowBgColor">#FFFFFFFF</Color>
+    <Color x:Key="CardBgColor">#FFFFFFFF</Color>
+    <Color x:Key="CardBorderColor">#E8E8EC</Color>
+    <Color x:Key="ControlBgColor">#F5F5F7</Color>
+    <Color x:Key="ControlBgHoverColor">#EDEDEF</Color>
+    <Color x:Key="ControlBorderColor">#E2E2E6</Color>
+    <Color x:Key="DividerColor">#ECECF0</Color>
+
+    <Color x:Key="TextPrimaryColor">#1D1D1F</Color>
+    <Color x:Key="TextSecondaryColor">#6E6E73</Color>
+    <Color x:Key="TextTertiaryColor">#8E8E93</Color>
+    <Color x:Key="TextFaintColor">#AEAEB2</Color>
+
+    <!-- Tangerine accent: #EA580C base, #F97316 on hover, pale flesh tints for fills -->
+    <Color x:Key="AccentColor">#EA580C</Color>
+    <Color x:Key="AccentSoftColor">#FEF0E5</Color>
+    <Color x:Key="AccentPressedColor">#FBDCC2</Color>
+
+    <Color x:Key="SuccessColor">#16A34A</Color>
+    <Color x:Key="SuccessSoftColor">#E9F7EF</Color>
+
+    <Color x:Key="DangerColor">#E5484D</Color>
+    <Color x:Key="DangerSoftColor">#FDECED</Color>
+
+    <Color x:Key="KeyCapBgColor">#F5F6F8</Color>
+    <Color x:Key="KeyCapBorderColor">#E4E5E9</Color>
+    <Color x:Key="KeyCapTextColor">#6B7280</Color>
+
+    <!-- Translucent brushes -->
+    <Color x:Key="MaskColor">#FBF7F4</Color>
+    <Color x:Key="HoverShadeColor">#FDFCFB</Color>
+
+    <!-- Floating pills / chips / viewer -->
+    <Color x:Key="PillBgColor">#E6FFFFFF</Color>
+    <Color x:Key="SizeChipBgColor">#F2FFFFFF</Color>
+    <Color x:Key="ViewerBgColor">#FFF9F7F6</Color>
+
+    <!-- Action buttons -->
+    <Color x:Key="ActionButtonBgColor">#FDFDFE</Color>
+    <Color x:Key="AccentHoverBorderColor">#F7C79E</Color>
+    <Color x:Key="SuccessHoverBorderColor">#B7E4C9</Color>
+    <Color x:Key="DangerHoverBorderColor">#F5C2C4</Color>
+
+    <!-- ═══ Brushes ═══ -->
+    <SolidColorBrush x:Key="WindowBgBrush" Color="{StaticResource WindowBgColor}" />
+    <SolidColorBrush x:Key="CardBgBrush" Color="{StaticResource CardBgColor}" />
+    <SolidColorBrush x:Key="CardBorderBrush" Color="{StaticResource CardBorderColor}" />
+    <SolidColorBrush x:Key="ControlBgBrush" Color="{StaticResource ControlBgColor}" />
+    <SolidColorBrush x:Key="ControlBgHoverBrush" Color="{StaticResource ControlBgHoverColor}" />
+    <SolidColorBrush x:Key="ControlBorderBrush" Color="{StaticResource ControlBorderColor}" />
+    <SolidColorBrush x:Key="DividerBrush" Color="{StaticResource DividerColor}" />
+
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="{StaticResource TextPrimaryColor}" />
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource TextSecondaryColor}" />
+    <SolidColorBrush x:Key="TextTertiaryBrush" Color="{StaticResource TextTertiaryColor}" />
+    <SolidColorBrush x:Key="TextFaintBrush" Color="{StaticResource TextFaintColor}" />
+
+    <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentColor}" />
+    <SolidColorBrush x:Key="AccentSoftBrush" Color="{StaticResource AccentSoftColor}" />
+    <SolidColorBrush x:Key="AccentPressedBrush" Color="{StaticResource AccentPressedColor}" />
+    <SolidColorBrush x:Key="SuccessBrush" Color="{StaticResource SuccessColor}" />
+    <SolidColorBrush x:Key="SuccessSoftBrush" Color="{StaticResource SuccessSoftColor}" />
+    <SolidColorBrush x:Key="DangerBrush" Color="{StaticResource DangerColor}" />
+    <SolidColorBrush x:Key="DangerSoftBrush" Color="{StaticResource DangerSoftColor}" />
+
+    <SolidColorBrush x:Key="KeyCapBgBrush" Color="{StaticResource KeyCapBgColor}" />
+    <SolidColorBrush x:Key="KeyCapBorderBrush" Color="{StaticResource KeyCapBorderColor}" />
+    <SolidColorBrush x:Key="KeyCapTextBrush" Color="{StaticResource KeyCapTextColor}" />
+
+    <SolidColorBrush x:Key="PillBgBrush" Color="{StaticResource PillBgColor}" />
+    <SolidColorBrush x:Key="SizeChipBgBrush" Color="{StaticResource SizeChipBgColor}" />
+    <SolidColorBrush x:Key="ViewerBgBrush" Color="{StaticResource ViewerBgColor}" />
+    <SolidColorBrush x:Key="ActionButtonBgBrush" Color="{StaticResource ActionButtonBgColor}" />
+    <SolidColorBrush x:Key="AccentHoverBorderBrush" Color="{StaticResource AccentHoverBorderColor}" />
+    <SolidColorBrush x:Key="SuccessHoverBorderBrush" Color="{StaticResource SuccessHoverBorderColor}" />
+    <SolidColorBrush x:Key="DangerHoverBorderBrush" Color="{StaticResource DangerHoverBorderColor}" />
+
+    <!-- Screen dim mask (region selector), soft bluish white -->
+    <SolidColorBrush x:Key="MaskBrush" Color="{StaticResource MaskColor}" Opacity="0.55" />
+    <!-- Preview hover shade -->
+    <SolidColorBrush x:Key="HoverShadeBrush" Color="{StaticResource HoverShadeColor}" Opacity="0.86" />
+
+    <!-- ═══ Keyboard key cap ═══ -->
+    <Style x:Key="KeyCap" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource KeyCapBgBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource KeyCapBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="MinWidth" Value="26" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Padding" Value="8,0" />
+    </Style>
+
+    <Style x:Key="KeyCapText" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource KeyCapTextBrush}" />
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+    </Style>
+
+    <!-- ═══ Preview action button: rounded square, hover tint via ButtonAssist ═══ -->
+    <Style x:Key="ActionButton" TargetType="Button">
+        <Setter Property="Width" Value="44" />
+        <Setter Property="Height" Value="44" />
+        <Setter Property="Background" Value="{DynamicResource ActionButtonBgBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderBrush}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="bd"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="10"
+                            RenderTransformOrigin="0.5,0.5">
+                        <Border.RenderTransform>
+                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                        </Border.RenderTransform>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="bd" Property="Background"
+                                    Value="{Binding Path=(local:ButtonAssist.HoverBrush), RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter TargetName="bd" Property="BorderBrush"
+                                    Value="{Binding Path=(local:ButtonAssist.HoverBorderBrush), RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="bd" Property="RenderTransform">
+                                <Setter.Value>
+                                    <ScaleTransform ScaleX="0.9" ScaleY="0.9" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

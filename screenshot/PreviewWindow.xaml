@@ -1,0 +1,172 @@
+<Window x:Class="screenshot.PreviewWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:screenshot"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        ShowActivated="True"
+        Topmost="True"
+        Focusable="True"
+        SizeToContent="WidthAndHeight"
+        UseLayoutRounding="True"
+        TextOptions.TextFormattingMode="Display"
+        TextOptions.TextRenderingMode="ClearType"
+        KeyDown="OnKeyDown"
+        MouseEnter="OnMouseEnter"
+        MouseLeave="OnMouseLeave"
+        MouseLeftButtonDown="OnCardMouseDown"
+        MouseMove="OnCardMouseMove"
+        MouseLeftButtonUp="OnCardMouseUp">
+
+    <Grid x:Name="Root" Margin="16" Opacity="0" RenderTransformOrigin="0.5,0.5">
+        <Grid.RenderTransform>
+            <TransformGroup>
+                <ScaleTransform x:Name="AppearScale" ScaleX="0.85" ScaleY="0.85" />
+                <TranslateTransform x:Name="AppearSlide" X="36" Y="0" />
+            </TransformGroup>
+        </Grid.RenderTransform>
+
+        <!-- Shadow carrier (separate element: Effects force offscreen bitmap
+             rendering which would defeat ClearType on the content border) -->
+        <Border CornerRadius="7" Background="{DynamicResource CardBgBrush}">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="18" ShadowDepth="1" Direction="270"
+                                  Opacity="0.16" Color="#1D1D1F" />
+            </Border.Effect>
+        </Border>
+
+        <Border x:Name="Card"
+                Background="{DynamicResource CardBgBrush}"
+                BorderBrush="{DynamicResource CardBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="7"
+                RenderOptions.ClearTypeHint="Enabled">
+            <Grid>
+                <!-- Image fills the card edge-to-edge; corners clipped in code-behind -->
+                <Border x:Name="ImgHost" CornerRadius="6">
+                    <Image x:Name="Img"
+                           MaxWidth="320" MaxHeight="240"
+                           Stretch="Uniform"
+                           RenderOptions.BitmapScalingMode="HighQuality" />
+                </Border>
+
+                <!-- Loading placeholder -->
+                <Border x:Name="Placeholder" Width="170" Height="120" Background="Transparent">
+                    <TextBlock Text="…" HorizontalAlignment="Center" VerticalAlignment="Center"
+                               Foreground="{DynamicResource TextFaintBrush}" FontSize="16" />
+                </Border>
+
+                <!-- Copied feedback: dark veil + springing green check -->
+                <Border x:Name="CheckOverlay"
+                        CornerRadius="6"
+                        Background="#59000000"
+                        Opacity="0"
+                        Visibility="Collapsed"
+                        IsHitTestVisible="False">
+                    <Border Width="56" Height="56"
+                            CornerRadius="28"
+                            Background="{DynamicResource SuccessBrush}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            RenderTransformOrigin="0.5,0.5">
+                        <Border.RenderTransform>
+                            <ScaleTransform x:Name="CheckScale" ScaleX="0.4" ScaleY="0.4" />
+                        </Border.RenderTransform>
+                        <Canvas Width="56" Height="56">
+                            <Path Stroke="White"
+                                  StrokeThickness="3.5"
+                                  StrokeStartLineCap="Round"
+                                  StrokeEndLineCap="Round"
+                                  StrokeLineJoin="Round"
+                                  Data="M17 29.5 L24.5 37 L39 21.5" />
+                        </Canvas>
+                    </Border>
+                </Border>
+
+                <!-- Hover action layer: secondary actions only. The card itself is Copy. -->
+                <Border x:Name="HoverLayer"
+                        CornerRadius="6"
+                        Background="{DynamicResource HoverShadeBrush}"
+                        Opacity="0"
+                        IsHitTestVisible="False"
+                        ToolTip="Click to copy  ·  Drag out to use elsewhere  ·  Auto-saves to Pictures \ Screenshots">
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+
+                        <!-- Full-screen view -->
+                        <Button Style="{DynamicResource ActionButton}" Width="36" Height="36"
+                                local:ButtonAssist.HoverBrush="{DynamicResource ControlBgHoverBrush}"
+                                local:ButtonAssist.HoverBorderBrush="{DynamicResource ControlBorderBrush}"
+                                Click="OnExpandClick" ToolTip="View full screen">
+                            <Viewbox Width="17" Height="17">
+                                <Canvas Width="24" Height="24">
+                                    <Path Stroke="{DynamicResource TextTertiaryBrush}"
+                                          StrokeThickness="2"
+                                          StrokeStartLineCap="Round"
+                                          StrokeEndLineCap="Round"
+                                          StrokeLineJoin="Round"
+                                          Data="M4 9 V4 H9 M15 4 H20 V9 M20 15 V20 H15 M9 20 H4 V15" />
+                                </Canvas>
+                            </Viewbox>
+                        </Button>
+
+                        <!-- Save as -->
+                        <Button Style="{DynamicResource ActionButton}" Width="36" Height="36" Margin="12,0,0,0"
+                                local:ButtonAssist.HoverBrush="{DynamicResource SuccessSoftBrush}"
+                                local:ButtonAssist.HoverBorderBrush="{DynamicResource SuccessHoverBorderBrush}"
+                                Click="OnSaveClick" ToolTip="Save to file">
+                            <Viewbox Width="17" Height="17">
+                                <Canvas Width="24" Height="24">
+                                    <Path Stroke="{DynamicResource SuccessBrush}"
+                                          StrokeThickness="2"
+                                          StrokeStartLineCap="Round"
+                                          StrokeEndLineCap="Round"
+                                          StrokeLineJoin="Round"
+                                          Data="M21 15 v4 a2 2 0 0 1 -2 2 H5 a2 2 0 0 1 -2 -2 v-4 M7 10 l5 5 5-5 M12 15 V3" />
+                                </Canvas>
+                            </Viewbox>
+                        </Button>
+
+                        <!-- Close -->
+                        <Button Style="{DynamicResource ActionButton}" Width="36" Height="36" Margin="12,0,0,0"
+                                local:ButtonAssist.HoverBrush="{DynamicResource DangerSoftBrush}"
+                                local:ButtonAssist.HoverBorderBrush="{DynamicResource DangerHoverBorderBrush}"
+                                Click="OnCloseClick" ToolTip="Discard — delete this file">
+                            <Viewbox Width="17" Height="17">
+                                <Canvas Width="24" Height="24">
+                                    <Path Stroke="{DynamicResource DangerBrush}"
+                                          StrokeThickness="2"
+                                          StrokeStartLineCap="Round"
+                                          StrokeEndLineCap="Round"
+                                          StrokeLineJoin="Round"
+                                          Data="M18 6 L6 18 M6 6 l12 12" />
+                                </Canvas>
+                            </Viewbox>
+                        </Button>
+                    </StackPanel>
+                </Border>
+
+                <!-- Revealed as the card slides away: tells the user where the shot went. -->
+                <Border x:Name="ArchiveChip"
+                        CornerRadius="6"
+                        Background="#8C000000"
+                        Visibility="Collapsed"
+                        IsHitTestVisible="False">
+                    <Border Margin="0,0,0,4"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom">
+                        <!-- Text is set from code: the archive can fall back outside
+                             Pictures, and the chip must not claim otherwise. -->
+                        <TextBlock x:Name="ArchiveText"
+                                   Text="✓ Saved to Pictures › Screenshots"
+                                   Foreground="White" FontSize="11.5" FontWeight="Medium" />
+                    </Border>
+                </Border>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

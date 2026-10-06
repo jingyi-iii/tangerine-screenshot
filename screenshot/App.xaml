@@ -1,0 +1,6 @@
+﻿<Application x:Class="screenshot.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             ShutdownMode="OnExplicitShutdown">
+    <!-- Theme dictionaries are loaded by ThemeManager (light/dark, follows the system). -->
+</Application>
