@@ -24,7 +24,7 @@ Windows 10/11 · .NET 10 · WPF · MIT
   way out.
 - **Follows the system theme** — the overlay, the card and the tray menu all read from one
   light/dark theme dictionary and swap live when Windows does.
-- **Nothing extra to ship** — the shutter sound is synthesised in memory at startup, and
+- **Nothing extra to ship** — the shutter sound is synthesised in memory on first use, and
   the icons are generated from a script.
 - **Memory-conscious** — a tray utility should not sit on a working set: the app trims it
   once idle after the shot cards close.
@@ -99,7 +99,7 @@ makes the app useless.
 | `--verify-flow` | Drives capture → preview without a human and asserts the card, its size, its icon and the file behind it. Exit code 1 on failure |
 | `--demo-capture` | Take one full-screen shot and leave the card on screen |
 | `--demo-menu` | Open the tray menu at the icon and leave it up |
-| `--menu-shot[=<dir>]` | Render the tray menu — both themes, both hotkey states — to PNGs. This is how `docs/tray-menu.png` is produced |
+| `--menu-shot[=<dir>]` | Render the tray menu — both themes, both hotkey states — to PNGs. The light and dark renders are what `docs/tray-menu.png` is composed from |
 
 ## Where your files go
 
