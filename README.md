@@ -6,7 +6,11 @@ to copy, save, or drag straight into another app.
 
 Windows 10/11 · .NET 10 · WPF · MIT
 
-![The tray menu in the light and dark theme](docs/tray-menu.png)
+![The tray menu in the light and dark theme](https://jingyi-iii.github.io/tangerine-screenshot/tray-menu.png)
+
+> The figure is served from this repository's GitHub Pages site (`docs/`). A relative
+> `docs/tray-menu.png` path is the cleaner form, but it resolves to
+> `raw.githubusercontent.com`, which some networks block outright.
 
 ## Highlights
 
