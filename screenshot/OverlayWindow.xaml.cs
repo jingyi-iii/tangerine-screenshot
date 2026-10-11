@@ -24,6 +24,7 @@ public partial class OverlayWindow : Window
 
     private const int LoupeSpan = 13;       // physical pixels across the loupe
     private const double LoupeSize = 132;   // DIPs incl. border
+    private const int ForeignEscapeGraceMs = 400;
 
     private static readonly uint OwnPid = NativeMethods.GetCurrentProcessId();
     private static readonly int RectSize = Marshal.SizeOf<NativeMethods.RECT>();
@@ -38,6 +39,8 @@ public partial class OverlayWindow : Window
     private Rect? _snapRect;   // snapped window, overlay-local DIPs
     private readonly DispatcherTimer _hintTimer;
     private bool _hintFading;
+    private readonly ForeignInputGuard _foreignInput = new();
+    private long _openedAt;
 
     // Scratch state for the EnumWindows callback (one hit-test at a time).
     private readonly System.Text.StringBuilder _className = new(64);
@@ -66,10 +69,17 @@ public partial class OverlayWindow : Window
             _hintTimer.Stop();
             FadeHint();
         };
+
+        // Finish() disposes it on every normal exit; this covers a Close() from App.CloseOverlay.
+        Closed += (_, _) => _foreignInput.Dispose();
     }
 
     public void Open()
     {
+        // Another screenshot tool can fire its Escape the moment our hotkey is handled, so the
+        // guard goes on before the window is even shown.
+        _foreignInput.Install();
+
         // Freeze the frame once — the loupe reads pixels from this snapshot.
         _frozen = ScreenCapture.Capture(new Rect(
             SystemParameters.VirtualScreenLeft, SystemParameters.VirtualScreenTop,
@@ -78,6 +88,12 @@ public partial class OverlayWindow : Window
         Show();
         Activate();
         Focus();
+
+        // Start the clock once the overlay is actually on screen. Freezing the frame above can
+        // take a moment, and a foreign Escape sent before we are visible never reaches us
+        // anyway, so anchoring earlier would only eat into the grace window.
+        _openedAt = Environment.TickCount64;
+
         LayoutMask(null);
         if (NativeMethods.GetCursorPos(out var cursor))
             UpdateWindowHover(new Point(
@@ -394,7 +410,25 @@ public partial class OverlayWindow : Window
         var key = e.Key == Key.System ? e.SystemKey : e.Key;
         if (key == Key.Escape)
         {
+            // Another screenshot tool (Feishu, WeChat, QQ) cancels its competitors with an
+            // Escape fired in the same breath as the hotkey that opened us. Injected Escape
+            // never reaches this handler because ForeignInputGuard swallows it at the hook;
+            // this catches one posted straight at the window, where nothing set the key state.
+            //
+            // Bounded by a grace window on purpose. The key-state test is the only thing that
+            // needs to hold for a real press to be honoured, and if it ever reads wrong the
+            // user would be left with an overlay they cannot cancel. Past the window, Escape
+            // always wins.
+            bool inGrace = Environment.TickCount64 - _openedAt < ForeignEscapeGraceMs;
+            if (inGrace && !ForeignInputGuard.IsPhysicalKeyDown(NativeMethods.VK_ESCAPE))
+            {
+                e.Handled = true;
+                DiagnosticLog.Write("overlay: ignored an Escape sent by another app");
+                return;
+            }
+
             e.Handled = true;
+            DiagnosticLog.Write("overlay: cancelled by Escape");
             Finish(null);
         }
         else if (key == Key.Space)
@@ -426,6 +460,7 @@ public partial class OverlayWindow : Window
     {
         if (_finished) return;
         _finished = true;
+        _foreignInput.Dispose();
         Completed?.Invoke(result);
     }
 }

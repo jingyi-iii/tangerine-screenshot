@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -9,6 +9,8 @@
     <UseWindowsForms>true</UseWindowsForms>
     <!-- Tray utility: prefer small heaps over raw GC throughput -->
     <GCConserveMemory>5</GCConserveMemory>
+    <!-- Single source of truth for the release version; the asset name follows it -->
+    <Version>1.1.0</Version>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>Assets\app.ico</ApplicationIcon>
   </PropertyGroup>
