@@ -11,6 +11,8 @@
         Topmost="True"
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="Manual"
+        FontFamily="Segoe UI"
+        FontSize="13"
         UseLayoutRounding="True"
         TextOptions.TextFormattingMode="Display"
         TextOptions.TextRenderingMode="ClearType"
@@ -109,18 +111,14 @@
         <!-- Shadow carrier. Kept as its own element because an Effect forces the
              subtree it is attached to through an offscreen bitmap; hanging it on
              the surface itself would cost the text its ClearType. -->
-        <Border CornerRadius="7" Background="{DynamicResource CardBgBrush}">
-            <Border.Effect>
-                <DropShadowEffect BlurRadius="20" ShadowDepth="2" Direction="270"
-                                  Opacity="0.18" Color="#1D1D1F" />
-            </Border.Effect>
-        </Border>
+        <Border CornerRadius="10" Background="{DynamicResource CardBgBrush}"
+                Effect="{DynamicResource PanelShadow}" />
 
         <Border x:Name="Shell"
                 Background="{DynamicResource CardBgBrush}"
                 BorderBrush="{DynamicResource CardBorderBrush}"
                 BorderThickness="1"
-                CornerRadius="7"
+                CornerRadius="10"
                 MinWidth="236"
                 RenderOptions.ClearTypeHint="Enabled">
             <StackPanel Margin="6">

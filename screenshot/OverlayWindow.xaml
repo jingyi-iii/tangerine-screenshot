@@ -10,6 +10,8 @@
         Topmost="True"
         Cursor="Cross"
         Focusable="True"
+        FontFamily="Segoe UI"
+        FontSize="13"
         UseLayoutRounding="True"
         TextOptions.TextFormattingMode="Display"
         KeyDown="OnKeyDown"

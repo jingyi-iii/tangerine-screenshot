@@ -22,7 +22,11 @@
     <Color x:Key="TextTertiaryColor">#FF8E8E93</Color>
     <Color x:Key="TextFaintColor">#FF636366</Color>
 
-    <!-- Tangerine accent, lifted for dark surfaces: #FB923C base, pale peel on hover -->
+    <!-- Tangerine accent, lifted for dark surfaces: #FB923C base, pale peel on hover.
+
+         One tangerine hue, three value bands across the series. This is the *stroke on dark*
+         band; LightTheme keeps the same hue darker for light surfaces, and tangerine-nudge's
+         CardAccent (#CC6A2B) is the fill band, darker still because it carries white text. -->
     <Color x:Key="AccentColor">#FFFB923C</Color>
     <Color x:Key="AccentSoftColor">#FF43290F</Color>
     <Color x:Key="AccentPressedColor">#FF573412</Color>
@@ -90,6 +94,14 @@
     <SolidColorBrush x:Key="MaskBrush" Color="{StaticResource MaskColor}" Opacity="0.45" />
     <!-- Preview hover shade -->
     <SolidColorBrush x:Key="HoverShadeBrush" Color="{StaticResource HoverShadeColor}" Opacity="0.5" />
+
+    <!-- ═══ Floating panel shadow ═══ -->
+    <!-- Shared by the preview card and the tray menu, and deliberately the same geometry as
+         tangerine-nudge's CardShadow (18 / 2 / 315 / black) so a Nudge card and a Screenshot
+         card read as siblings. Only the opacity differs, and it has to: these panels are light,
+         while Nudge's dark card needs 0.6 to separate from the desktop behind it. -->
+    <DropShadowEffect x:Key="PanelShadow" BlurRadius="18" ShadowDepth="2" Direction="315"
+                      Opacity="0.18" Color="#FF000000" />
 
     <!-- ═══ Keyboard key cap ═══ -->
     <Style x:Key="KeyCap" TargetType="Border">

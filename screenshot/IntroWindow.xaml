@@ -11,6 +11,8 @@
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterScreen"
         Opacity="0"
+        FontFamily="Segoe UI"
+        FontSize="13"
         UseLayoutRounding="True"
         TextOptions.TextFormattingMode="Display"
         TextOptions.TextRenderingMode="ClearType">

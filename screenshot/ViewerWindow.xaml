@@ -8,6 +8,8 @@
         Topmost="True"
         Focusable="True"
         Background="{DynamicResource ViewerBgBrush}"
+        FontFamily="Segoe UI"
+        FontSize="13"
         UseLayoutRounding="True"
         TextOptions.TextFormattingMode="Display"
         TextOptions.TextRenderingMode="ClearType"
